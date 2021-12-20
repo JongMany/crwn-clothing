@@ -1,10 +1,13 @@
 import React from 'react';
 import './menu-item.styles.scss';
-import {useNavigate} from 'react-router-dom';
+import {useNavigate, useParams} from 'react-router-dom';
 
 const MenuItem = ({title,imageUrl, size, linkUrl }) => {
 
   let navigate = useNavigate();
+  let params = useParams();
+
+  console.log(params, navigate);
   return (
     <div 
       className={`${size} menu-item`}
