@@ -2,7 +2,7 @@ import React from 'react';
 import './App.css';
 import Homepage from './pages/homepage/homepage.component';
 import { Route, Routes} from 'react-router-dom';
-import ShopPage from './components/shop/shop.component';
+import ShopPage from './pages/shop/shop.component';
 import Header from './components/header/header.component';
 
 function App() {
