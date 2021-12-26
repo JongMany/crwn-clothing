@@ -5,9 +5,7 @@ import {useNavigate, useParams} from 'react-router-dom';
 const MenuItem = ({title,imageUrl, size, linkUrl }) => {
 
   let navigate = useNavigate();
-  let params = useParams();
 
-  console.log(params, navigate);
   return (
     <div 
       className={`${size} menu-item`}
