@@ -20,7 +20,7 @@ const MenuItem = ({title,imageUrl, size, linkUrl }) => {
       </div>
       <div className="content">
         <h1 className="title">{title.toUpperCase()} </h1>
-        <span className="  subitle">SHOP NOW</span>
+        <span className="subitle">SHOP NOW</span>
       </div>
     </div>
   );
