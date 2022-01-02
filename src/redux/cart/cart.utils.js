@@ -15,3 +15,21 @@ export const addItemToCart = (cartItems, cartItemToAdd)=> {
   return [...cartItems, {...cartItemToAdd, quantity: 1}]
 
 }
+
+//수량을 감소하는데 마지막 수량(1)인 경우 제거
+export const removeItemFromCart =(cartItems, cartItemToRemove) => {
+  const existingCartItem = cartItems.find(
+    cartItem => cartItem.id === cartItemToRemove.id
+  );
+
+  if(existingCartItem.quantity === 1){
+    return cartItems.filter(cartItem => cartItem.id !== cartItemToRemove.id)
+  }
+
+  return cartItems.map(
+    cartItem=>
+    cartItem.id === cartItemToRemove ?
+    {...cartItem, quantity: cartItem.quantity -1}:
+    cartItem
+  );
+};
