@@ -48,7 +48,7 @@ class App extends Component {
 
         <Routes>
           <Route exact path="/" element={<Homepage />} />
-          <Route path="/shop" element={<ShopPage />} />
+          <Route path="/shop/*" element={<ShopPage />} />
           <Route exact path="/signin" element={this.props.currentUser ? <Navigate to="/"/> :<SignInAndSignUpPage />} />
           <Route path="/checkout" element={<CheckoutPage />}/>
         </Routes>
