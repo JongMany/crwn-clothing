@@ -20,6 +20,7 @@ export const createUserProfileDocument = async (userAuth, ...additionalData) => 
   if (!userAuth) return;
 
   const userRef = firestore.doc(`users/${userAuth.uid}`);
+  
   const snapShot = await userRef.get();
 
   //만약 snapShot이 fireStore에 존재하지 않는 경우 데이터 조각을 만듦
@@ -46,6 +47,37 @@ export const createUserProfileDocument = async (userAuth, ...additionalData) => 
 
   // console.log(firestore.collection('users'));
   return userRef;
+}
+
+export const addCollectionAndDocuments = async (collectionKey, objectsToAdd) => {
+  const collectionRef = firestore.collection(collectionKey);
+
+  const batch = firestore.batch()
+	objectsToAdd.forEach((obj) => {
+		const newDocRef = collectionRef.doc();
+    batch.set(newDocRef, obj);
+
+	})
+  return await batch.commit();
+};
+
+
+export const convertCollectionsSnapshotToMap = (collections) => {
+  const transformedCollection = collections.docs.map(doc=>{
+    const {title, items } = doc.data();
+    return {
+      routeName : encodeURI(title.toLowerCase()),
+      id : doc.id,
+      title,
+      items
+    }
+  })
+  
+  return transformedCollection.reduce((accumulator, collection) => {
+    accumulator[collection.title.toLowerCase()] = collection; //key
+
+    return accumulator;
+  } ,{})
 }
 
 export const auth = firebase.auth();

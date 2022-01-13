@@ -16,9 +16,10 @@ export const selectCollections = createSelector(
   shop => shop.collections ,
 );
 
+//객체를 배열로 만들어줌
 export const selectCollectionsForPreview = createSelector(
   [selectCollections],
-  collections => Object.keys(collections).map(key=>collections[key]),
+  collections => collections ? Object.keys(collections).map(key=>collections[key]) : [],
 )
 /* export const selectCollection = memoize(collectionUrlParam => 
   createSelector(
@@ -30,7 +31,7 @@ export const selectCollectionsForPreview = createSelector(
 export const selectCollection = memoize((collectionUrlParam)=>
   createSelector(
     [selectCollections],
-    (collections)=> collections[collectionUrlParam],
+    (collections)=> collections ? collections[collectionUrlParam] : null,
 
   )
 )
