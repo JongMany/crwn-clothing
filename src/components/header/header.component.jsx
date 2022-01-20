@@ -11,8 +11,11 @@ import CartDropdown from "../cart-dropdown/cart-dropdown.component";
 import { selectCartHidden } from "../../redux/cart/cart.selectors";
 import { selectCurrentUser } from "../../redux/user/user.selector";
 import { HeaderContainer, LogoContainer, OptionsContainer, OptionLink, OptionDiv } from "./header.styles";
+import { signOutStart } from "../../redux/user/user.actions";
 
-const Header = ({currentUser,hidden}) => (
+const Header = ({currentUser,hidden, signOutStart}) => {
+
+  return(
   <HeaderContainer>
     <LogoContainer to="/">
       <Logo className="logo" />
@@ -23,7 +26,7 @@ const Header = ({currentUser,hidden}) => (
       {
         currentUser ?
         // (<OptionDiv className="option" onClick={() => auth.signOut()}> SIGN OUT</OptionDiv>)
-        (<OptionLink as='div'  onClick={() => auth.signOut()}> SIGN OUT</OptionLink>)
+        (<OptionLink as='div'  onClick={signOutStart}> SIGN OUT</OptionLink>)
         :
         (<OptionLink  to='/signin'> SIGN IN</OptionLink>)
       }
@@ -32,7 +35,7 @@ const Header = ({currentUser,hidden}) => (
     {!hidden&&<CartDropdown />}
     {/* hidden?null:<CartDropdown /> */}
   </HeaderContainer>
-);
+);}
 
 //객체를 반환 
 /* const mapStateToProps = ({user: {currentUser}, cart :{hidden}}) => ({
@@ -48,4 +51,8 @@ const mapStateToProps = createStructuredSelector({
   hidden: selectCartHidden
 })
 
-export default connect(mapStateToProps)(Header);
+const mapDispatchToProps = dispatch => ({
+  signOutStart : () => dispatch(signOutStart()),
+});
+
+export default connect(mapStateToProps,mapDispatchToProps)(Header);

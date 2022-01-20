@@ -9,36 +9,16 @@ import Header from "./components/header/header.component";
 import SignInAndSignUpPage from "./pages/sign-in-and-sign-up/sign-in-and-sign-up.component";
 import CheckoutPage from "./pages/checkout/checkout.component";
 
-import { auth, createUserProfileDocument } from "./firebase/firebase.utils";
 import { connect } from "react-redux";
-import { setCurrentUser } from "./redux/user/user.actions";
 import { selectCurrentUser } from "./redux/user/user.selector";
+import { checkUserSession } from "./redux/user/user.actions";
 
 
 class App extends Component {
-  unsubscribeFromAuth = null;
 
   componentDidMount() {
-    const {setCurrentUser} = this.props; 
-    this.unsubscribeFromAuth = auth.onAuthStateChanged(async (userAuth) => {
-      if (userAuth) {
-        //로그인한 경우에만 수행하기 위함임(userAuth가 존재하는 경우)
-        const userRef = await createUserProfileDocument(userAuth);
-
-        userRef.onSnapshot((snapshot) => {
-          setCurrentUser({
-            id: snapshot.id,
-            ...snapshot.data(),
-          });
-        });
-      } else {
-        setCurrentUser(userAuth);
-      }
-    }, error => console.log(error));
-  }
-
-  componentWillUnmount() {
-    this.unsubscribeFromAuth();
+    const {checkUserSession} = this.props;
+    checkUserSession();
   }
 
   render() {
@@ -59,10 +39,10 @@ class App extends Component {
 
 const mapStateToProps = createStructuredSelector ({
   currentUser : selectCurrentUser,
-})
+});
 
 const mapDispatchToProps = (dispatch) => ({
-  setCurrentUser: (user) => dispatch(setCurrentUser(user)),
-});
+  checkUserSession : () => dispatch(checkUserSession()),
+})
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

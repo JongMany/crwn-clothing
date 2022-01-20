@@ -49,6 +49,9 @@ export const createUserProfileDocument = async (userAuth, ...additionalData) => 
   return userRef;
 }
 
+
+//많은 데이터를 batch를 통해 한번에 실행시키도록
+//batch를 사용하지 않으면 대용량 데이터의 실패 지점을 모르기에 예측 불가능해짐. 전체가 업데이트가 안되면 차라리 아예 업데이트가 안되도록
 export const addCollectionAndDocuments = async (collectionKey, objectsToAdd) => {
   const collectionRef = firestore.collection(collectionKey);
 
@@ -61,7 +64,7 @@ export const addCollectionAndDocuments = async (collectionKey, objectsToAdd) => 
   return await batch.commit();
 };
 
-
+//collections의 data는 배열이다. 배열을 객체로 만들기
 export const convertCollectionsSnapshotToMap = (collections) => {
   const transformedCollection = collections.docs.map(doc=>{
     const {title, items } = doc.data();
@@ -83,13 +86,23 @@ export const convertCollectionsSnapshotToMap = (collections) => {
 export const auth = firebase.auth();
 export const firestore = firebase.firestore();
 
+export const getCurrentUser = () => {
+  return new Promise((resolve, reject)=>{
+    const unsubscribe = auth.onAuthStateChanged(userAuth => {
+      unsubscribe();
+      resolve(userAuth);
+    },reject);
+  });
+}
+
+
 //authentication 라이브러리에서 new GoogleAuthProvider에 액세스할 수 있다.
-const provider = new firebase.auth.GoogleAuthProvider();
+export const GoogleProvider = new firebase.auth.GoogleAuthProvider();
 //authentication을 위해서 GoogleAuthProvider를 사용할 때마다 항상 Google 팝업을 실행하길 원한다는 뜻 
-provider.setCustomParameters({
+GoogleProvider.setCustomParameters({
   prompt: 'select_account'
 });
 //구글로 로그인할 경우 위에서 설정한 provider를 통해 popup으로 로그인하려고 함
-export const signInWithGoogle = () => auth.signInWithPopup(provider);
+export const signInWithGoogle = () => auth.signInWithPopup(GoogleProvider);
 
 export default firebase;
