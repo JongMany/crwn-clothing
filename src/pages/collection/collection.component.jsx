@@ -23,12 +23,12 @@ const CollectionPage = () => {
   );
 };
 
-// const mapStateTopProps = (state, ownProps) => ({
+// const mapStateToProps = (state, ownProps) => ({
 //   collection: selectCollection(ownProps.collectionId)(state),
 // })
 
 
-// export default connect(mapStateTopProps)(CollectionPage);
+// export default connect(mapStateToProps)(CollectionPage);
 
 export default CollectionPage;
 

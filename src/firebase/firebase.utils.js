@@ -12,7 +12,7 @@ const config = {
   measurementId: "G-G035TNLZKL"
 };
 
-firebase.initializeApp(config);
+const app = firebase.initializeApp(config);
 
 
 export const createUserProfileDocument = async (userAuth, ...additionalData) => {
@@ -83,7 +83,7 @@ export const convertCollectionsSnapshotToMap = (collections) => {
   } ,{})
 }
 
-export const auth = firebase.auth();
+export const auth = firebase.auth(app);
 export const firestore = firebase.firestore();
 
 export const getCurrentUser = () => {
